@@ -1,0 +1,12 @@
+{
+  "name": "crypto-arbitrage",
+  "version": "1.0.0",
+  "description": "Arbitrage Smart Contract Solidity code, tests, deploy scripts",
+  "scripts": {},
+  "keywords": [],
+  "author": "Andrei Stefan",
+  "license": "MIT",
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.7.1"
+  }
+}
