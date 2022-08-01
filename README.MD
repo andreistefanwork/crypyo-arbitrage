@@ -2,13 +2,13 @@
 
 ## Arbitrage strategy
 
-- use KyberSwap Aggregator Router to find the best route to take when swapping assets
+- use KyberSwap Router to find the best route to take when swapping assets
   - find best route and swap token A for token B
   - find best route and swap token B for token A
   - if the token A final balance is greater than the token A initial balance, then the arbitrage is profitable
 - for a big leverage, make use of flash loans, to move large amounts of assets from one exchange to another
 - all operations on the blockchain are performed inside a single transaction
-- in case arbitrage is not profitable, the losses consist of just the gas fees
+- in the event that arbitrage is not profitable, the only losses incurred are gas fees.
 
 ### Trading pair: WETH <-> USDC 
 

@@ -16,9 +16,3 @@ export const encodeSwaps = (swaps: Swap[]) => {
             ]
         ]);
 }
-
-export const encodeToBytes = (data: string) => {
-    const web3 = createWeb3('json-rpc');
-
-    return web3.eth.abi.encodeParameter('bytes', data);
-}
