@@ -68,7 +68,7 @@ contract Arbitrage is ICallee, DydxFlashloanBase, Ownable {
         require(msg.sender == dydxSoloMargin, "The flash loan empowered code is not called by DydxSoloMargin.");
         require(sender == address(this), "The flash loan is not initiated by this contract.");
 
-        Swap[2] memory swaps = abi.decode(data, (Swap[2]));
+        Swap[] memory swaps = abi.decode(data, (Swap[]));
         Swap memory firstSwap = swaps[0];
         Swap memory secondSwap = swaps[1];
 
@@ -84,7 +84,7 @@ contract Arbitrage is ICallee, DydxFlashloanBase, Ownable {
      */
     function _doSwap(address aggregationRouter, bytes memory swapData, uint swapIndex) internal {
         (bool success,) = aggregationRouter.call(swapData);
-        require(success);
+        require(success, "Swap failed");
 
         emit SwapPerformed(swapIndex);
     }
