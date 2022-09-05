@@ -1,21 +1,25 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
+pragma abicoder v2;
+
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./TransferHelper.sol";
+import "./RevertReasonParser.sol";
 import "./dydx/ICallee.sol";
 import "./dydx/DydxFlashloanBase.sol";
 
 contract Arbitrage is ICallee, DydxFlashloanBase, Ownable {
     struct Swap {
+        address token;
+        uint amount;
         address aggregationRouter;
         bytes swapData;
     }
 
-    address private immutable dydxSoloMargin;
+    address public immutable dydxSoloMargin;
 
-    event SwapPerformed(uint index);
     event SuccessfulArbitrage();
     event WithdrawFunds(uint amount);
 
@@ -40,9 +44,11 @@ contract Arbitrage is ICallee, DydxFlashloanBase, Ownable {
         Account.Info[] memory accountInfos = new Account.Info[](1);
         accountInfos[0] = _getAccountInfo();
 
-        solo.operate(accountInfos, operations);
-
-        emit SuccessfulArbitrage();
+        try solo.operate(accountInfos, operations) {
+            emit SuccessfulArbitrage();
+        } catch Error(string memory reason) {
+            revert(string.concat("solo.operate failed: ", reason));
+        }
     }
 
     function withdraw(IERC20 token) external onlyOwner {
@@ -69,23 +75,25 @@ contract Arbitrage is ICallee, DydxFlashloanBase, Ownable {
         require(sender == address(this), "The flash loan is not initiated by this contract.");
 
         Swap[] memory swaps = abi.decode(data, (Swap[]));
-        Swap memory firstSwap = swaps[0];
-        Swap memory secondSwap = swaps[1];
 
-        _doSwap(firstSwap.aggregationRouter, firstSwap.swapData, 0);
-        _doSwap(secondSwap.aggregationRouter, secondSwap.swapData, 1);
+        _doSwap(swaps[0]);
+        _doSwap(swaps[1]);
     }
 
     /**
      * The actual swap is handled by KyberSwap's AggregationRouter contract.
      *
+     * Before swapping, the amount that will be swapped must be approved for the router.
+     *
      * All the required information about the swap like tokens, amount in, min amount out, routes
      * are contained in the swap.swapData field.
      */
-    function _doSwap(address aggregationRouter, bytes memory swapData, uint swapIndex) internal {
-        (bool success,) = aggregationRouter.call(swapData);
-        require(success, "Swap failed");
+    function _doSwap(Swap memory swap) internal {
+        IERC20(swap.token).approve(swap.aggregationRouter, swap.amount);
 
-        emit SwapPerformed(swapIndex);
+        (bool success, bytes memory swapResult) = swap.aggregationRouter.call(swap.swapData);
+        if (!success) {
+            revert(RevertReasonParser.parse(swapResult, "Swap failed: "));
+        }
     }
 }
