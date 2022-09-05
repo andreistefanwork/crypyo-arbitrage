@@ -23,13 +23,14 @@ const findArbitrageOpportunity: () => Promise<Swap[]> = async () => {
         totalGas: firstSwapTotalGas
     } = await getFirstSwapDetails();
 
+    const minSecondaryTokenAmount = await computeMinTokenAmount(estimatedSecondaryTokenAmount, SLIPPAGE_TOLERANCE).toString();
     const {
         outputAmount: primaryTokenOutput,
         gasPriceGwei: secondSwapGasPriceGwei,
         routerAddress: secondSwapRouterAddress,
         encodedSwapData: secondSwapEncoded,
         totalGas: secondSwapTotalGas
-    } = await getSecondSwapDetails(estimatedSecondaryTokenAmount);
+    } = await getSecondSwapDetails(minSecondaryTokenAmount);
 
     const netOutcome = computeNetOutcome(primaryTokenOutput, PRIMARY_TOKEN_INPUT_AMOUNT, firstSwapGasPriceGwei,
         firstSwapTotalGas, secondSwapGasPriceGwei, secondSwapTotalGas);
@@ -41,10 +42,14 @@ const findArbitrageOpportunity: () => Promise<Swap[]> = async () => {
     console.log(`Net profit: ${netOutcome} wei at ${(getFormattedCurrentTime())}`);
     return [
         {
+            token: PRIMARY_TOKEN_ADDRESS,
+            amount: PRIMARY_TOKEN_INPUT_AMOUNT,
             aggregationRouter: firstSwapRouterAddress,
             swapData: firstSwapEncoded
         },
         {
+            token: SECONDARY_TOKEN_ADDRESS,
+            amount: minSecondaryTokenAmount,
             aggregationRouter: secondSwapRouterAddress,
             swapData: secondSwapEncoded
         }
@@ -70,13 +75,11 @@ async function getFirstSwapDetails() {
     return swapDetails;
 }
 
-async function getSecondSwapDetails(estimatedSecondaryTokenAmount: string) {
-    const minSecondaryTokenAmount = await computeMinTokenAmount(estimatedSecondaryTokenAmount, SLIPPAGE_TOLERANCE);
-
+async function getSecondSwapDetails(minSecondaryTokenAmount: string) {
     const secondSwapRequest: SwapRequest = {
         tokenIn: SECONDARY_TOKEN_ADDRESS,
         tokenOut: PRIMARY_TOKEN_ADDRESS,
-        amountIn: minSecondaryTokenAmount.toString(),
+        amountIn: minSecondaryTokenAmount,
         saveGas: SAVE_GAS,
         slippageTolerance: SLIPPAGE_TOLERANCE,
         to: ARBITRAGE_CONTRACT_ADDRESS,
