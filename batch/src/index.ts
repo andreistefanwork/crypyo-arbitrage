@@ -1,10 +1,10 @@
-import findArbitrageOpportunity from './arbitrage.js';
-import createWeb3 from './web3-factory.js';
-import initFlashLoanEmpoweredArbitrage from './contract-functions/arbitrage-initFlashLoanEmpoweredArbitrage.js';
-import {encodeSwaps} from './abi-encoder.js';
+import findArbitrageOpportunity from './arbitrage';
+import createWeb3 from './web3-factory';
+import initFlashLoanEmpoweredArbitrage from './contract-functions/arbitrage-initFlashLoanEmpoweredArbitrage';
+import {encodeSwaps} from './abi-encoder';
 import {exhaustMap, Subject} from 'rxjs';
 import {fromPromise} from 'rxjs/internal/observable/innerFrom';
-import {ArbitrageResult} from './models/arbitrage-result.js';
+import {ArbitrageResult} from './models/arbitrage-result';
 
 async function loop() {
     const web3Ws = createWeb3('ws');
@@ -60,4 +60,6 @@ function logArbitrageResult(result: ArbitrageResult) {
     }
 }
 
-await loop();
+(async function () {
+    await loop()
+})();

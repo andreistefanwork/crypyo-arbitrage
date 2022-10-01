@@ -1,6 +1,6 @@
 import 'dotenv/config';
-import createWeb3 from '../web3-factory.js';
-import {initFlashLoanEmpoweredArbitrageABI} from '../abis/Arbitrage.js';
+import createWeb3 from '../web3-factory';
+import {initFlashLoanEmpoweredArbitrageABI} from '../abis/Arbitrage';
 
 const {
     PRIMARY_TOKEN_ADDRESS,

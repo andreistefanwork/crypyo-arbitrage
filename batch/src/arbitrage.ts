@@ -1,8 +1,8 @@
 import 'dotenv/config';
 import Web3 from 'web3';
-import SwapRequest from './kyberswap/models/swap-request.js';
-import {getSwapDetails} from './kyberswap/kyberswap-client.js';
-import Swap from './models/swap.js';
+import SwapRequest from './kyberswap/models/swap-request';
+import {getSwapDetails} from './kyberswap/kyberswap-client';
+import Swap from './models/swap';
 
 const {
     PRIMARY_TOKEN_INPUT_AMOUNT,

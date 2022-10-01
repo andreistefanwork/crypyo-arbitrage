@@ -1,3 +1,5 @@
-import withdraw from './contract-functions/arbitrage-withdraw.js';
+import withdraw from './contract-functions/arbitrage-withdraw';
 
-await withdraw();
+(async function () {
+    await withdraw()
+})();

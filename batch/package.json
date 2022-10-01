@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Code for polling KyberSwap aggregator router and sending transactions to Arbitrage smart contract when arbitrage opportunities are found.",
   "author": "Andrei Stefan",
-  "type": "module",
   "license": "MIT",
   "scripts": {
     "clean": "rm -rf dist",
@@ -15,7 +14,7 @@
   },
   "dependencies": {
     "dotenv": "^16.0.1",
-    "node-fetch": "^3.2.6",
+    "node-fetch-commonjs": "^3.2.4",
     "rxjs": "^7.5.6",
     "web3": "^1.7.4"
   },

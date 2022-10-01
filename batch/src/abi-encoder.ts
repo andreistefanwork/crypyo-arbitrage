@@ -1,5 +1,5 @@
-import Swap from './models/swap.js';
-import createWeb3 from './web3-factory.js';
+import Swap from './models/swap';
+import createWeb3 from './web3-factory';
 
 export const encodeSwaps = (swaps: Swap[]) => {
     const web3 = createWeb3('json-rpc');

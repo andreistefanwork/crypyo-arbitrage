@@ -1,6 +1,6 @@
-import fetch from 'node-fetch';
-import SwapResponse from './models/swap-response.js';
-import SwapRequest from './models/swap-request.js';
+import fetch from 'node-fetch-commonjs';
+import SwapResponse from './models/swap-response';
+import SwapRequest from './models/swap-request';
 
 export const getSwapDetails = async (swapRequest: SwapRequest) => {
     const {KYBERSWAP_AGGREGATOR_URL} = process.env;

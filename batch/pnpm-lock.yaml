@@ -2,14 +2,14 @@ lockfileVersion: 5.4
 
 specifiers:
   dotenv: ^16.0.1
-  node-fetch: ^3.2.6
+  node-fetch-commonjs: ^3.2.4
   rxjs: ^7.5.6
   typescript: ^4.7.4
   web3: ^1.7.4
 
 dependencies:
   dotenv: 16.0.1
-  node-fetch: 3.2.6
+  node-fetch-commonjs: 3.2.4
   rxjs: 7.5.6
   web3: 1.7.4
 
@@ -628,11 +628,6 @@ packages:
     engines: {node: '>=0.10'}
     dependencies:
       assert-plus: 1.0.0
-    dev: false
-
-  /data-uri-to-buffer/4.0.0:
-    resolution: {integrity: sha512-Vr3mLBA8qWmcuschSLAOogKgQ/Jwxulv3RNE4FXnYWRGujzrRWQI4m12fQqRkwX06C0KanhLr4hK+GydchZsaA==}
-    engines: {node: '>= 12'}
     dev: false
 
   /debug/2.6.9:
@@ -1682,13 +1677,12 @@ packages:
     engines: {node: '>=10.5.0'}
     dev: false
 
-  /node-fetch/3.2.6:
-    resolution: {integrity: sha512-LAy/HZnLADOVkVPubaxHDft29booGglPFDr2Hw0J1AercRh01UiVFm++KMDnJeH9sHgNB4hsXPii7Sgym/sTbw==}
+  /node-fetch-commonjs/3.2.4:
+    resolution: {integrity: sha512-bZW7+ldcuuMPLTJk8DufhT6qHDRdljYD0jqBjmrYfcInaYcReX5kK42SQsu/jvtit/tER28yYjnk63PEEmNPtg==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     dependencies:
-      data-uri-to-buffer: 4.0.0
-      fetch-blob: 3.2.0
       formdata-polyfill: 4.0.10
+      web-streams-polyfill: 3.2.1
     dev: false
 
   /node-gyp-build/4.5.0:

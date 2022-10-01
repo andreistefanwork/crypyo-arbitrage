@@ -1,6 +1,6 @@
 import 'dotenv/config';
-import createWeb3 from '../web3-factory.js';
-import {withdrawABI} from '../abis/Arbitrage.js';
+import createWeb3 from '../web3-factory';
+import {withdrawABI} from '../abis/Arbitrage';
 
 const {
     ARBITRAGE_CONTRACT_ADDRESS,
